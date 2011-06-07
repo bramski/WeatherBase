@@ -15,7 +15,7 @@ module WeatherBase
       base.serialize :precip_cm, Array
       base.serialize :snowfall_inches, Array
       base.serialize :snowfall_cm, Array
-      base.acts_as_mappable( :lng_column_name => "long")
+      base.acts_as_mappable( :lng_column_name => "long", :units => :km)
     end
 
     module ClassMethods
@@ -124,6 +124,10 @@ module WeatherBase
     
     def precip?
       return !( attributes["precip_inches"].nil? || attributes["precip_cm"].nil? )
+    end
+    
+    def temperatures?
+      return !( attributes["high_temp_f"].nil? || attributes["low_temp_f"].nil? )
     end
 
     def precip
