@@ -91,22 +91,14 @@ module WeatherBase
       end
     end
 
-    def days_above_85f
-      return attributes["days_above_85f"]
-    end
-
-    def days_below_70f
-      return attributes["days_below_70f"]
-    end
-    
     def snow?
-      return !( attributes["snow_inches"].nil? || attributes["snow_cm"].nil? )
+      return !( snowfall_inches.nil? || snowfall_cm.nil? )
     end
 
     def snow
       snow = []
       
-      if ( attributes["snow_inches"].nil? || attributes["snow_cm"].nil? )
+      if ( snowfall_inches.nil? || snowfall_cm.nil? )
         for i in ( 0 .. 11 ) do
           snow.push( Length.new( :inches => 0.0,
                                   :cm => 0.0))
@@ -114,8 +106,8 @@ module WeatherBase
       else
       
         for i in ( 0 .. 11) do 
-          snow.push( Length.new( :inches => attributes["snow_inches"][i],
-                                    :cm => attributes["snow_cm"][i]) )
+          snow.push( Length.new( :inches => snowfall_inches[i],
+                                    :cm => snowfall_cm[i]) )
         end
       end
 
@@ -123,17 +115,17 @@ module WeatherBase
     end
     
     def precip?
-      return !( attributes["precip_inches"].nil? || attributes["precip_cm"].nil? )
+      return !( precip_inches.nil? || precip_cm.nil? )
     end
     
     def temperatures?
-      return !( attributes["high_temp_f"].nil? || attributes["low_temp_f"].nil? )
+      return !( high_temp_f.nil? || low_temp_f.nil? )
     end
 
     def precip
       precips = []
       
-      if ( attributes["precip_inches"].nil? || attributes["precip_cm"].nil? )
+      if ( precip_inches.nil? || precip_cm.nil? )
         for i in ( 0 .. 11 ) do
           precips.push( Length.new( :inches => 0.0,
                                     :cm => 0.0))
@@ -141,8 +133,8 @@ module WeatherBase
       else
       
         for i in ( 0 .. 11 ) do
-          precips.push( Length.new( :inches => attributes["precip_inches"][i],
-                                    :cm => attributes["precip_cm"][i]) )
+          precips.push( Length.new( :inches => precip_inches[i],
+                                    :cm => precip_cm[i]) )
         end
       end
 
@@ -150,18 +142,18 @@ module WeatherBase
     end
     
     def high?
-      return !(attributes["high_temp_f"].nil? || attributes["high_temp_c"].nil?)
+      return !(high_temp_f.nil? || high_temp_c.nil?)
     end
     
     def low?
-      return !(attributes["low_temp_c"].nil? || attributes["low_temp_c"].nil?)
+      return !(low_temp_c.nil? || low_temp_c.nil?)
     end
 
     def high
       temps = []
       for i in ( 0 .. 11 ) do 
-        temps.push( Temperature.new(:f => attributes["high_temp_f"][i],
-                                    :c => attributes["high_temp_c"][i]))
+        temps.push( Temperature.new(:f => high_temp_f[i],
+                                    :c => high_temp_c[i]))
       end
 
       return temps.extend(TempMappable)
@@ -170,8 +162,8 @@ module WeatherBase
     def low
       temps = []
       for i in ( 0 .. 11 ) do 
-        temps.push( Temperature.new(:f => attributes["low_temp_f"][i],
-                                    :c => attributes["low_temp_c"][i]))
+        temps.push( Temperature.new(:f => low_temp_f[i],
+                                    :c => low_temp_c[i]))
       end
 
       return temps.extend(TempMappable)
