@@ -15,7 +15,7 @@ module WeatherBase
       base.serialize :precip_cm, Array
       base.serialize :snowfall_inches, Array
       base.serialize :snowfall_cm, Array
-      base.acts_as_mappable( :lng_column_name => "long", :units => :km)
+      base.acts_as_mappable(:units => :km)
     end
 
     module ClassMethods
@@ -50,7 +50,7 @@ module WeatherBase
                                   :state => row[2],
                                   :country => row[3],
                                   :lat => row[4],
-                                  :long => row[5],
+                                  :lng => row[5],
             }
           end
 

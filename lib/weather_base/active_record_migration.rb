@@ -13,7 +13,7 @@ module WeatherBase
         t.string :state
         t.string :country
         t.float :lat, :nullable => false
-        t.float :long, :nullable => false
+        t.float :lng, :nullable => false
         t.string :high_temp_f
         t.string :high_temp_c
         t.string :low_temp_f
