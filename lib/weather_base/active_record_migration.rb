@@ -13,17 +13,17 @@ module WeatherBase
         t.string :state
         t.string :country
         t.float :lat, :nullable => false
-        t.float :long, :nullable => false
-        t.text :high_temp_f
-        t.text :high_temp_c
-        t.text :low_temp_f
-        t.text :low_temp_c
-        t.text :days_above_85f
-        t.text :days_below_70f
-        t.text :precip_inches
-        t.text :precip_cm
-        t.text :snowfall_inches
-        t.text :snowfall_cm
+        t.float :lng, :nullable => false
+        t.string :high_temp_f
+        t.string :high_temp_c
+        t.string :low_temp_f
+        t.string :low_temp_c
+        t.string :days_above_85f
+        t.string :days_below_70f
+        t.string :precip_inches
+        t.string :precip_cm
+        t.string :snowfall_inches
+        t.string :snowfall_cm
       end
     end
   end
