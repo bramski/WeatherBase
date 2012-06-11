@@ -1,11 +1,16 @@
-module WeatherBase
+module WeatherBase #:nodoc:
+  #The ActiveRecordMigration class is used as a mixin for your
+  #Migration to create the necessary fields to use the WeatherBase
+  #ActiveRecordSupport module.  See the populate_table method.
   module ActiveRecordMigration
     
-    def self.included(base)
+    def self.included(base) #:nodoc:
       base.extend(ClassMethods)
     end
     
-    module ClassMethods
+    module ClassMethods #:nodoc:
+      #Populates the given table with all the fields
+      #required for use of the ActiveRecordSupport class.
       def populate_table(t)
         t.integer :id
         t.integer :weatherbase_id, :unique => true, :nullable => false

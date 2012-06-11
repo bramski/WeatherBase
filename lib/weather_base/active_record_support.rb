@@ -1,9 +1,12 @@
 require "csv"
 
-module WeatherBase
+module WeatherBase #:nodoc:
+  #The ActiveRecordSupport module of WeatherBase should be
+  #included in your class which you intend to represent the WeatherBase
+  #data.
   module ActiveRecordSupport
     
-    def self.included(base)
+    def self.included(base)#:nodoc:
       base.extend(ClassMethods)
       base.serialize :high_temp_f, Array
       base.serialize :high_temp_c, Array
@@ -18,16 +21,13 @@ module WeatherBase
       base.acts_as_mappable(:units => :km)
     end
 
-    module ClassMethods
-      
-      def load_us
-        return from_csv(File.dirname(__FILE__) + "/../data/27crags-us.csv")
-      end
-      
-      def load_intl
-        return from_csv(File.dirname(__FILE__) + "/../data/27crags-intl.csv")
-      end
+    module ClassMethods#:nodoc:
 
+      #Loads the data in a task oriented way and returns a set of active
+      #record objects which you should then save to the DB
+      # == Valid Options
+      # +progress+
+      #  print to stdout to show ongoing progress dots and completion of sets
       def from_csv( filename, options = {})
 
         data_by_id = {}
@@ -91,10 +91,12 @@ module WeatherBase
       end
     end
 
+    #Does this record contain snow data?
     def snow?
       return !( snowfall_inches.nil? || snowfall_cm.nil? )
     end
 
+    #Returns an array of monthly snow data
     def snow
       snow = []
       
@@ -114,14 +116,17 @@ module WeatherBase
       return snow.extend(LengthMappable)
     end
     
+    #Does this record contain any precipitation data?
     def precip?
       return !( precip_inches.nil? || precip_cm.nil? )
     end
     
+    #Does this record contain any temperature data?
     def temperatures?
       return !( high_temp_f.nil? || low_temp_f.nil? )
     end
 
+    #Returns a LengthMappable array of monthly precip data.
     def precip
       precips = []
       
@@ -141,14 +146,17 @@ module WeatherBase
       return precips.extend(LengthMappable)
     end
     
+    #Is there high temperature data with this record?
     def high?
       return !(high_temp_f.nil? || high_temp_c.nil?)
     end
     
+    #Is there low temperature data with this record?
     def low?
       return !(low_temp_c.nil? || low_temp_c.nil?)
     end
 
+    #Returns a TempMappable array of monthly high temps
     def high
       temps = []
       for i in ( 0 .. 11 ) do 
@@ -159,6 +167,7 @@ module WeatherBase
       return temps.extend(TempMappable)
     end
 
+    #Returns a TempMappable array of monthly low temps
     def low
       temps = []
       for i in ( 0 .. 11 ) do 
@@ -169,21 +178,28 @@ module WeatherBase
       return temps.extend(TempMappable)
     end
 
+    #TempMappable is an extension to the array class
+    #which adds some helper functions for fahrenheit and celsius
     module TempMappable
+      #The array of fahrenheit temps
       def f
         return self.map { |t| t.f}
       end
-
+      
+      #The array of celsius temps
       def c
         return self.map { |t| t.c}
       end
     end
 
+    #An extension class to Array which adds inches and cm mappings
     module LengthMappable
+      #The array of inches values
       def inches
         return self.map { |l| l.inches}
       end
 
+      #The array of cm values.
       def cm
         return self.map { |l| l.cm}
       end
@@ -194,7 +210,7 @@ module WeatherBase
       attr_accessor :cm
 
       alias :centimeters :cm
-      def initialize(options)
+      def initialize(options)#:nodoc:
         self.inches = options[:inches]
         self.cm = options[:cm]
       end
@@ -207,7 +223,7 @@ module WeatherBase
       alias :fahrenheit :f
       alias :celsius :c
 
-      def initialize(options)
+      def initialize(options)#:nodoc:
         self.f = options[:f]
         self.c = options[:c]
       end

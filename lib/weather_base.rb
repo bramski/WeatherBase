@@ -1,3 +1,3 @@
-module WeatherBase
+module WeatherBase#:nodoc:
   
 end
