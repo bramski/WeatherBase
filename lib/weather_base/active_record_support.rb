@@ -121,11 +121,6 @@ module WeatherBase #:nodoc:
       return !( precip_inches.nil? || precip_cm.nil? )
     end
     
-    #Does this record contain any temperature data?
-    def temperatures?
-      return !( high_temp_f.nil? || low_temp_f.nil? )
-    end
-
     #Returns a LengthMappable array of monthly precip data.
     def precip
       precips = []
@@ -146,6 +141,11 @@ module WeatherBase #:nodoc:
       return precips.extend(LengthMappable)
     end
     
+    #Does this record contain any temperature data?
+    def temperatures?
+      high? || low?
+    end
+
     #Is there high temperature data with this record?
     def high?
       return !(high_temp_f.nil? || high_temp_c.nil?)
