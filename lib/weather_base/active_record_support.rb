@@ -153,7 +153,7 @@ module WeatherBase #:nodoc:
     
     #Is there low temperature data with this record?
     def low?
-      return !(low_temp_c.nil? || low_temp_c.nil?)
+      return !(low_temp_f.nil? || low_temp_c.nil?)
     end
 
     #Returns a TempMappable array of monthly high temps
